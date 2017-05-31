@@ -1,0 +1,137 @@
+<!doctype html>
+
+<html lang="en" ng-app="niceDApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <base href="/">
+
+  <title>NiceD</title>
+
+  <!--bootstrap and our app css file-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="app.css">
+  <link href="bootstrap.css" rel="stylesheet" type="text/css"/>
+  <!--angular and ui-router-->
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+
+  <!--our angular app-->
+  <script src="smart-table.js"></script>
+  <script src="app.js"></script>
+
+</head>
+
+<body class="list-group" ng-controller="MainController">
+  <div class="jumbotron text-center">
+    <h1>NiceList: {{ data_user.login}}</h1\>
+  </div>
+    <!-- <nav class="navbar navbar-default"> -->
+    <div class="container">
+      <section class="tab" ng-controller="CtrlUsers as usr">
+        <ul class="nav nav-pills">
+          <li>
+            <a href ng-click="usr.getUsers()">Usuarios GIT</a>
+          </li>
+          <!-- <li ng-class="{active: usr.isSet(3) }">
+            <a href ng-click="usr.getUsers()">Repositorio de Usuarios</a>
+          </li> -->
+        </ul>
+        <div ng-show=showListUsers>
+          <!-- <div> -->
+            <h4>Usuarios GIT</h4>
+            <!-- <div> -->
+              <table st-table="displayedCollection"  st-safe-src="rowCollection" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th st-sort="avatar_url" class="text-center">Avatar</th>
+                    <th st-sort="login" class="text-center">User</th>
+                    <th st-sort="url" class="text-center">URL</th>
+                    <th st-sort="repository" class="text-center">Repository</th>
+                  </tr>
+                  <tr>
+                    <th colspan="5"><input st-search="" class="form-control" placeholder="global search ..." type="text"/>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="row in displayedCollection">
+                    <!-- <td class="text-left">
+                    <input class="TextBoxAsLabel" type="text" value="{{row.avatar_url}}" ng-model="row.avatar_url"></input>
+                    </td> -->
+                    <td class="text-center">
+                      <img ng-src="{{row.avatar_url}}" alt="User" style="width:64px;height:64px;">
+                    </td>
+                    <td class="text-center">{{row.login}}</td>
+                    <td class="text-center"><a ng-href="https://github.com/{{row.login}}">{{row.url}}</a></td>
+                    <td class="text-center">
+                      <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(row.login)">View Repository</button>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+      </div>
+                    <div ng-show="showListRepos">
+                    </br>
+                    <!-- <div> -->
+                      <table st-table="displayedCollection" st-safe-src="rowCollectionRepos" class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th st-sort="html_url" class="text-center">Link a Github</th>
+                            <th st-sort="name" class="text-center">Nombre de Repositorio</th>
+                            <th st-sort="description" class="text-center">Descripcion de Repositorio</th>
+                            <th st-sort="open_issues" class="text-center">Issues</th>
+                            <th st-sort="open_issues_count" class="text-center">Issues Abiertos</th>
+                            <th st-sort="forks_count" class="text-center">Forks</th>
+                          </tr>
+                          <tr>
+                            <th colspan="5"><input st-search="" class="form-control" placeholder="global search ..." type="text"/></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="row in displayedCollection">
+                            <td class="text-center"><a ng-href="{{row.html_url}}">{{row.html_url}}</a></td>
+                            <td class="text-center"><b>{{row.name}}</b></td>
+                            <td class="text-left">{{row.description}}</td>
+                            <td class="text-left">{{row.open_issues | number : 0}}</td>
+                            <td class="text-left">{{row.open_issues_count | number : 0}}</td>
+                            <td class="text-left">{{row.forks_count | number : 0}}</td>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan="5" class="text-center">
+                              <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="4"></div>
+                            </td>
+                          </tr>
+                        </tfoot>
+                        </table>
+                      <!-- </div> -->
+                    <!-- </tbody> -->
+
+                  <!-- </table> -->
+                <!-- </div> -->
+              </div>
+
+          </section>
+        </div>
+        <!-- </nav> -->
+
+        <!-- <div class="jumbotron text-center" >
+        <h3>
+        {{ data_user.avatar_url }}
+      </h3>
+      <h3>
+      {{ data_user.login }}
+    </h3>
+    <h3>
+    {{ data_user.url }}
+  </h3>
+  <h3>
+  {{ data_user.repos_url }}
+</h3>
+</div> -->
+</body>
+</html>

@@ -1,0 +1,1 @@
+../bower_components/angular-smart-table/dist/smart-table.js
