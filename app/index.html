@@ -11,7 +11,8 @@
   <title>NiceD</title>
 
   <!--bootstrap and our app css file-->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" href="app.css">
   <link href="bootstrap.css" rel="stylesheet" type="text/css"/>
   <!--angular and ui-router-->
@@ -26,49 +27,86 @@
 
 <body class="list-group" ng-controller="MainController">
   <div class="jumbotron text-center">
-    <h1>NiceList: {{ data_user.login}}</h1\>
+    <h1>Nice List</h1\>
   </div>
     <!-- <nav class="navbar navbar-default"> -->
     <div class="container">
+
+
       <section class="tab" ng-controller="CtrlUsers as usr">
-        <ul class="nav nav-pills">
+        <!-- <ul class="nav nav-pills">
           <li>
             <a href ng-click="usr.getUsers()">Usuarios GIT</a>
           </li>
-          <!-- <li ng-class="{active: usr.isSet(3) }">
-            <a href ng-click="usr.getUsers()">Repositorio de Usuarios</a>
-          </li> -->
-        </ul>
+
+        </ul> -->
         <div ng-show=showListUsers>
           <!-- <div> -->
-            <h4>Usuarios GIT</h4>
+            <!-- <h4>Usuarios GIT</h4> -->
             <!-- <div> -->
               <table st-table="displayedCollection"  st-safe-src="rowCollection" class="table table-striped">
                 <thead>
                   <tr>
-                    <th st-sort="avatar_url" class="text-center">Avatar</th>
-                    <th st-sort="login" class="text-center">User</th>
-                    <th st-sort="url" class="text-center">URL</th>
-                    <th st-sort="repository" class="text-center">Repository</th>
+
                   </tr>
-                  <tr>
-                    <th colspan="5"><input st-search="" class="form-control" placeholder="global search ..." type="text"/>
-                    </th>
-                  </tr>
+
                 </thead>
                 <tbody>
-                  <tr ng-repeat="row in displayedCollection">
-                    <!-- <td class="text-left">
-                    <input class="TextBoxAsLabel" type="text" value="{{row.avatar_url}}" ng-model="row.avatar_url"></input>
-                    </td> -->
-                    <td class="text-center">
+                  <tr ng-repeat="row in displayedCollection" ng-switch on="$index % 4">
+                    <td ng-switch-when="0">
+                      <div class="card" ng-show="displayedCollection[$index]">
+                        <img class="text-center" class="card-img-top" src="{{displayedCollection[$index].avatar_url}}" alt="Card image cap" style="width:300px;height:256px;">
+                        <div class="card-block">
+                          <h4 class="card-title">{{displayedCollection[$index].login}}</h4>
+                          <p class="card-text">URL: <a href="{{displayedCollection[$index].html_url}}">{{displayedCollection[$index].html_url}}</a></p>
+                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index].login)">View Repository</button></small></p>
+                        </div>
+                      </div>
+                    </td>
+                    <td ng-switch-when="0">
+                      <div class="card" ng-show="displayedCollection[$index+1]">
+                        <img class="card-img-top" src="{{displayedCollection[$index+1].avatar_url}}" alt="Card image cap" style="width:300px;height:256px;">
+                        <div class="card-block">
+                          <h4 class="card-title">{{displayedCollection[$index+1].login}}</h4>
+                          <p class="card-text">URL: <a href="{{displayedCollection[$index+1].html_url}}">{{displayedCollection[$index+1].html_url}}</a></p>
+                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index+1].login)">View Repository</button></small></p>
+                        </div>
+                      </div>
+                      <!-- <span ng-show="displayedCollection[$index+1]">
+                        {{displayedCollection[$index+1].login}} {{displayedCollection[$index+1].avatar_url}}
+                      </span> -->
+                    </td>
+                    <td ng-switch-when="0">
+                      <div class="card" ng-show="displayedCollection[$index+2]">
+                        <img class="card-img-top" src="{{displayedCollection[$index+2].avatar_url}}" alt="Card image cap" style="width:300px;height:256px;">
+                        <div class="card-block">
+                          <h4 class="card-title">{{displayedCollection[$index+2].login}}</h4>
+                          <p class="card-text">URL: <a href="{{displayedCollection[$index+2].html_url}}">{{displayedCollection[$index+2].html_url}}</a></p>
+                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index+2].login)">View Repository</button></small></p>
+                        </div>
+                      </div>
+                    </td>
+                    <td ng-switch-when="0">
+                      <div class="card" ng-show="displayedCollection[$index+3]">
+                        <img class="card-img-top" src="{{displayedCollection[$index+3].avatar_url}}" alt="Card image cap" style="width:300px;height:256px;">
+                        <div class="card-block">
+                          <h4 class="card-title">{{displayedCollection[$index+3].login}}</h4>
+                          <p class="card-text">URL: <a href="{{displayedCollection[$index+3].html_url}}">{{displayedCollection[$index+3].html_url}}</a></p>
+                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index+3].login)">View Repository</button></small></p>
+                        </div>
+                      </div>
+                    </td>
+                    <!-- <td class="text-center">
+                      <div class="card-group">
                       <img ng-src="{{row.avatar_url}}" alt="User" style="width:64px;height:64px;">
                     </td>
-                    <td class="text-center">{{row.login}}</td>
+                    <td class="text-center">{{row.login}}
+
+                    </td>
                     <td class="text-center"><a ng-href="https://github.com/{{row.login}}">{{row.url}}</a></td>
                     <td class="text-center">
                       <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(row.login)">View Repository</button>
-                    </td>
+                    </td> -->
                   </tr>
                 </tbody>
 
@@ -80,9 +118,8 @@
                       <table st-table="displayedCollection" st-safe-src="rowCollectionRepos" class="table table-striped">
                         <thead>
                           <tr>
-                            <th st-sort="html_url" class="text-center">Link a Github</th>
-                            <th st-sort="name" class="text-center">Nombre de Repositorio</th>
-                            <th st-sort="description" class="text-center">Descripcion de Repositorio</th>
+                            <th st-sort="html_url" class="text-left">Link a Github</th>
+                            <th st-sort="name" class="text-left">Nombre de Repositorio</th>
                             <th st-sort="open_issues" class="text-center">Issues</th>
                             <th st-sort="open_issues_count" class="text-center">Issues Abiertos</th>
                             <th st-sort="forks_count" class="text-center">Forks</th>
@@ -93,8 +130,8 @@
                         </thead>
                         <tbody>
                           <tr ng-repeat="row in displayedCollection">
-                            <td class="text-center"><a ng-href="{{row.html_url}}">{{row.html_url}}</a></td>
-                            <td class="text-center"><b>{{row.name}}</b></td>
+                            <td class="text-left"><a ng-href="{{row.html_url}}">{{row.html_url}}</a></td>
+                            <td class="text-left"><b>{{row.name  | uppercase}}</b></td>
                             <td class="text-left">{{row.description}}</td>
                             <td class="text-left">{{row.open_issues | number : 0}}</td>
                             <td class="text-left">{{row.open_issues_count | number : 0}}</td>
@@ -116,6 +153,14 @@
               </div>
 
           </section>
+
+
+
+
+
+
+
+
         </div>
         <!-- </nav> -->
 

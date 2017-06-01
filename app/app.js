@@ -9,6 +9,8 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
 
   angular_app.controller('MainController', function ($scope, $http) {
     $scope.formData = {};
+    $scope.imagePath = 'img/washedout.png';
+
     $http.get('/api/getUser')
       .success(function (data){
         $scope.data_user = JSON.parse(data);
@@ -71,7 +73,27 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
     // this.tab = 1;
     // this.showListUsers = false;
     // this.showListRepos = false;
+    this.getUsers = function(){
+      this.tab = 2;
+      $scope.users = {};
+      console.log('getUsers before:');
+      DataService.getUser()
+        .then(
+            function (data){
 
+              $scope.rowCollection = JSON.parse(data);
+              $scope.showListUsers = true;
+              // $scope.showListRepos = false;
+              // console.log("rowCollection:");
+              // console.log(JSON.parse(data));
+            },
+            function (result){
+              console.log('Failes, result is:'+ result);
+            }
+        )
+    }
+
+    this.getUsers();
 
     this.showTable = function (login_user){
       // this.tab =3;
@@ -98,25 +120,7 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
     //   this.tab = newVal;
     // };
 
-    this.getUsers = function(){
-      this.tab = 2;
-      $scope.users = {};
-      console.log('getUsers before:');
-      DataService.getUser()
-        .then(
-            function (data){
 
-              $scope.rowCollection = JSON.parse(data);
-              $scope.showListUsers = true;
-              // $scope.showListRepos = false;
-              // console.log("rowCollection:");
-              // console.log(JSON.parse(data));
-            },
-            function (result){
-              console.log('Failes, result is:'+ result);
-            }
-        )
-    }
   //   this.isSet = function(tabName){
   //    return this.tab === tabName;
   //  };
