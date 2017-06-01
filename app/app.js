@@ -30,10 +30,10 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
           return deferred.promise;
         }
 
-        self.getRepo = function (login_user){
+        self.getRepo = function (login_name){
           var deferred = $q.defer();
 
-          $http.get('/api/getRepo/'+login_user)
+          $http.get('/api/getRepo/'+login_name)
             .then(function (response){
               self.repo = angular.fromJson(response['data']);
               deferred.resolve(angular.fromJson(response['data']));
@@ -42,6 +42,18 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
             return deferred.promise;
         }
 
+        self.getDetailUser = function (login_name){
+          var deferred = $q.defer();
+          console.log('login_name app.js: ');
+          console.log(login_name);
+          $http.get('/api/getDetailUser/'+login_name)
+            .then(function (response){
+              self.repo = angular.fromJson(response['data']);
+              deferred.resolve(angular.fromJson(response['data']));
+            });
+
+            return deferred.promise;
+        }
       }
 
       return new DataService();
@@ -51,7 +63,7 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
       $scope.formData = {};
 
       this.getUsers = function(){
-        this.tab = 2;
+        // this.tab = 2;
         $scope.users = {};
 
         DataService.getUser()
@@ -66,11 +78,10 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
           );
       }
 
-      this.getUsers();
 
-      this.showTable = function (login_user){
+      this.showTable = function (login_name){
 
-        DataService.getRepo(login_user)
+        DataService.getRepo(login_name)
           .then(
             function (data){
               $scope.rowCollectionRepos = angular.fromJson(data);
@@ -84,5 +95,30 @@ var angular_app = angular.module('niceDApp', ['smart-table']);
             }
         );
       }
+
+      this.getDetailUser = function (login_name){
+        console.log('login name getDetailUser: ');
+        console.log(login_name);
+        DataService.getDetailUser(login_name)
+          .then(
+            function (data){
+              // $scope.rowCollectionRepos = angular.fromJson(data);
+              // console.log(angular.fromJson(data));
+              var data_det_usr = angular.fromJson(data);
+              $scope.showDetailUser = true;
+              $scope.name_retrieve = data_det_usr['name'];
+              // return angular.fromJson(data['name']);
+              // $scope.showListUsers = false;
+              // $scope.showListRepos = true;
+            },
+            function (result){
+              console.log('Failes, result is:'+ result);
+            }
+        );
+      }
+
+      this.getUsers();
+      // this.getDetailUser();
+
     }]);
 })();
