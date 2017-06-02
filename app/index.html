@@ -16,142 +16,16 @@
   <link href="bootstrap.css" rel="stylesheet" type="text/css"/>
   <!--angular and angular-route-->
   <script src="angular.js"></script>
+  <script src="angular-route.js"></script>
   <!--our angular app-->
   <script src="smart-table.js"></script>
   <script src="app.js"></script>
 </head>
 
-<body ng-controller="MainController">
+<body ng-controller="CtrlMain">
     <!-- <div> -->
-      <section class="tab" ng-controller="CtrlUsers as usr">
-        <div ng-show=showListUsers>
-            <div class="jumbotron text-center">
-              <h1>Nice List</h1\>
-            </div>
-              <table st-table="displayedCollection"  st-safe-src="rowCollection" class="table table-striped">
-                <thead>
-                  <tr></tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="row in displayedCollection" ng-switch on="$index % 4">
-                    <td ng-switch-when="0">
-                      <div class="card" ng-show="displayedCollection[$index]">
-                        <img class="card-img-top" ng-src="{{displayedCollection[$index].avatar_url}}" alt="Card image cap" style="width:128px;height:128px;">
-                        <div class="card-block">
-                          <h4 class="card-title">{{displayedCollection[$index].login}}</h4>
-                          <!-- <h4 class="card-title" ng-init="name_retrieve = usr.getDetailUser(displayedCollection[$index].login)">{{name_retrieve}}</h4> -->
-                          <p class="card-text"><a ng-href="{{displayedCollection[$index].html_url}}">{{displayedCollection[$index].html_url}}</a></p>
-                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index].login)">View Repository</button></small></p>
-                        </div>
-                      </div>
-                    </td>
-                    <td ng-switch-when="0">
-                      <div class="card" ng-show="displayedCollection[$index+1]">
-                        <img class="card-img-top" ng-src="{{displayedCollection[$index+1].avatar_url}}" alt="Card image cap" style="width:128px;height:128px;">
-                        <div class="card-block">
-                          <h4 class="card-title">{{displayedCollection[$index+1].login}}</h4>
-                          <p class="card-text"><a ng-href="{{displayedCollection[$index+1].html_url}}">{{displayedCollection[$index+1].html_url}}</a></p>
-                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index+1].login)">View Repository</button></small></p>
-                        </div>
-                      </div>
-                    </td>
-                    <td ng-switch-when="0">
-                      <div class="card" ng-show="displayedCollection[$index+2]">
-                        <img class="card-img-top" src="{{displayedCollection[$index+2].avatar_url}}" alt="Card image cap" style="width:128px;height:128px;">
-                        <div class="card-block">
-                          <h4 class="card-title">{{displayedCollection[$index+2].login}}</h4>
-                          <p class="card-text"><a ng-href="{{displayedCollection[$index+2].html_url}}">{{displayedCollection[$index+2].html_url}}</a></p>
-                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index+2].login)">View Repository</button></small></p>
-                        </div>
-                      </div>
-                    </td>
-                    <td ng-switch-when="0">
-                      <div class="card" ng-show="displayedCollection[$index+3]">
-                        <img class="card-img-top" src="{{displayedCollection[$index+3].avatar_url}}" alt="Card image cap" style="width:128px;height:128px;">
-                        <div class="card-block">
-                          <h4 class="card-title">{{displayedCollection[$index+3].login}}</h4>
-                          <p class="card-text"><a ng-href="{{displayedCollection[$index+3].html_url}}">{{displayedCollection[$index+3].html_url}}</a></p>
-                          <p class="card-text"><small class="text-muted">  <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index+3].login)">View Repository</button></small></p>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-          </div>
-
-          <div ng-show="showListRepos">
-          </br>
-            <table st-table="displayedCollection" st-safe-src="rowCollectionRepos" class="table table-striped">
-              <thead>
-                <tr>
-                  <th>
-                      <a class="card-text btn btn-sm btn-primary" ng-href="/index.html" role="button"><b><-- Go to User Lists</b></a>
-                  </th>
-                </tr>
-
-              </thead>
-              <tbody>
-                <tr ng-repeat="row in displayedCollection" ng-switch on="$index % 4">
-                  <td ng-switch-when="0">
-                    <div class="card" ng-show="displayedCollection[$index]">
-                      <div class="card-block col-sm-12">
-                        <h4 class="card-title text-center">{{displayedCollection[$index].name  | uppercase}}</h4>
-                        <a class="card-text btn btn-sm btn-primary" ng-href="{{displayedCollection[$index].html_url}}" role="button"><b>{{displayedCollection[$index].html_url}}</b></a>
-                        <p class="card-text"><b>{{displayedCollection[$index].description}}</b></p>
-                        <p class="card-text"><small class="text-muted">  Issues: {{displayedCollection[$index].open_issues | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Open Issues: {{displayedCollection[$index].open_issues_count | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Forks: {{displayedCollection[$index].forks_count | number : 0}}</small></p>
-                      </div>
-                    </div>
-                  </td>
-                  <td ng-switch-when="0">
-                    <div class="card" ng-show="displayedCollection[$index+1]">
-                      <div class="card-block col-sm-12">
-                        <h4 class="card-title text-center">{{displayedCollection[$index+1].name  | uppercase}}</h4>
-                        <a class="card-text btn btn-sm btn-primary" ng-href="{{displayedCollection[$index+1].html_url}}" role="button"><b>{{displayedCollection[$index+1].html_url}}</b></a>
-                        <p class="card-text"><b>{{displayedCollection[$index+1].description}}</b></p>
-                        <p class="card-text"><small class="text-muted">  Issues: {{displayedCollection[$index+1].open_issues | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Open Issues: {{displayedCollection[$index+1].open_issues_count | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Forks: {{displayedCollection[$index+1].forks_count | number : 0}}</small></p>
-                      </div>
-                    </div>
-                  </td>
-                  <td ng-switch-when="0">
-                    <div class="card" ng-show="displayedCollection[$index+2]">
-                      <div class="card-block col-sm-12">
-                        <h4 class="card-title">{{displayedCollection[$index+2].name  | uppercase}}</h4>
-                        <a class="card-text btn btn-sm btn-primary" ng-href="{{displayedCollection[$index+2].html_url}}" role="button"><b>{{displayedCollection[$index+2].html_url}}</b></a>
-                        <p class="card-text"><b>{{displayedCollection[$index+2].description}}</b></p>
-                        <p class="card-text"><small class="text-muted">  Issues: {{displayedCollection[$index+2].open_issues | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Open Issues: {{displayedCollection[$index+2].open_issues_count | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Forks: {{displayedCollection[$index+2].forks_count | number : 0}}</small></p>
-                      </div>
-                    </div>
-                  </td>
-                  <td ng-switch-when="0">
-                    <div class="card" ng-show="displayedCollection[$index+3]">
-                      <div class="card-block col-sm-12">
-                        <h4 class="card-title">{{displayedCollection[$index+3].name  | uppercase}}</h4>
-                        <a class="card-text btn btn-sm btn-primary" ng-href="{{displayedCollection[$index+3].html_url}}" role="button"><b>{{displayedCollection[$index+3].html_url}}</b></a>
-                        <p class="card-text"><b>{{displayedCollection[$index+3].description}}</b></p>
-                        <p class="card-text"><small class="text-muted">  Issues: {{displayedCollection[$index+3].open_issues | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Open Issues: {{displayedCollection[$index+3].open_issues_count | number : 0}}</small></p>
-                        <p class="card-text"><small class="text-muted">  Forks: {{displayedCollection[$index+3].forks_count | number : 0}}</small></p>
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-              <tfoot>
-                <tr>
-                  <td colspan="4" class="text-center">
-                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="4"></div>
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-          </div>
+      <section class="tab">
+        <div ng-view></div>
       </section>
     <!-- </div> -->
 </body>
