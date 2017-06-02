@@ -14,13 +14,30 @@ var request = require('request');
     // parse application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    var options = {
-      url : 'https://api.github.com/users',
-      headers: {
-        'User-Agent': 'request'
-        ,'Authorization': ' token 01932c44087594f07462d6b539d4bba0551e40c7'
-      }
-    };
+    var token = ' token 1c59c22d8cf7c633c46ef822d572aeadd397f3bc';
+    var options;
+    var is_tokenize = '1';
+
+
+    if (is_tokenize == '1'){
+      var options_ct = {
+        url : 'https://api.github.com/users',
+        headers: {
+          'User-Agent': 'request'
+          ,'Authorization':  token
+        }
+      };
+      options = options_ct;
+    } else {
+      var options_st = {
+        url : 'https://api.github.com/users',
+        headers: {
+          'User-Agent': 'request'
+        }
+      };
+      options = options_st;
+    }
+
 
     app.get('/api/getUser', function (req,res){
       request(options, function (error, response, body){
@@ -30,12 +47,24 @@ var request = require('request');
 
     app.get('/api/getRepo/:login_name', function (req,res){
       var url_final = 'https://api.github.com/users/'+req.params.login_name+'/repos';
-      var options = {
-        url : url_final,
-        headers: {'User-Agent': 'request'
-        ,'Authorization': ' token 01932c44087594f07462d6b539d4bba0551e40c7'
-        }
-      };
+      if (is_tokenize == '1'){
+        var options_ct = {
+          url : url_final,
+          headers: {
+            'User-Agent': 'request'
+            ,'Authorization':  token
+          }
+        };
+        options = options_ct;
+      } else {
+        var options_st = {
+          url : url_final,
+          headers: {
+            'User-Agent': 'request'
+          }
+        };
+        options = options_st;
+      }
 
       request(options, function (error, response, body){
         res.json(body);
@@ -48,12 +77,24 @@ var request = require('request');
 
       for (var i=0; i <= obj.length-1; i++){
         var url_final = 'https://api.github.com/users/'+obj[i].login;
-        var options = {
-          url : url_final,
-          headers: {'User-Agent': 'request'
-          ,'Authorization': ' token 01932c44087594f07462d6b539d4bba0551e40c7'
-          }
-        };
+        if (is_tokenize == '1'){
+          var options_ct = {
+            url : url_final,
+            headers: {
+              'User-Agent': 'request'
+              ,'Authorization':  token
+            }
+          };
+          options = options_ct;
+        } else {
+          var options_st = {
+            url : url_final,
+            headers: {
+              'User-Agent': 'request'
+            }
+          };
+          options = options_st;
+        }
 
         request(options, function (error, response, body){
           var userDetailJson = JSON.parse(body);
