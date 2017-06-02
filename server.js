@@ -14,10 +14,11 @@ var request = require('request');
     // parse application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true }));
 
-    var token = ' token 1c59c22d8cf7c633c46ef822d572aeadd397f3bc';
+
+    var config = require('./config.json');
+    var token = ' token '+config.token;
     var options;
     var is_tokenize = '1';
-
 
     if (is_tokenize == '1'){
       var options_ct = {
