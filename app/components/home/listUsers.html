@@ -12,19 +12,11 @@
             <td ng-switch-when="0">
               <div class="card" ng-show="displayedCollection[$index]">
                 <img class="card-img-top" ng-src="{{displayedCollection[$index].avatar_url}}" alt="Card image cap" style="width:128px;height:128px;">
-                <!-- <div class="card-block" ng-init="iii = $index">{{iii}} -->
-                  <!-- <a >{{iii}}</a> -->
                   <h4 class="card-title">{{displayedCollection[$index].name}}</h4>
-                  <!-- <h4 class="card-title">
-                    <my-directive usr-person='lololo' ng-init="iii = displayedCollection[$index].login" updateparent="updatePerson(iii)"></my-directive>
-                  </h4> -->
-
-                  <!-- <h4 class="card-text">{{getDetailUser(displayedCollection[$index].login)}}</h4> -->
                   <p class="card-text"><a ng-href="{{displayedCollection[$index].html_url}}">{{displayedCollection[$index].html_url}}</a></p>
                   <p class="card-text"><small class="text-muted">
                     <a class="card-text btn btn-sm btn-primary" ng-href="/listRepos/{{displayedCollection[$index].login}}" role="button"><b>View Repository</b></a>
                   </p>
-                    <!-- <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="usr.showTable(displayedCollection[$index].login)">View Repository</button></small></p> -->
                 </div>
               </div>
             </td>

@@ -56,15 +56,7 @@ angular_app.config(function($routeProvider, $locationProvider) {
 
         self.getDetailUser = function (resp){
           var deferred = $q.defer();
-          // .then (function (response){
-          //   $http.get('/api/getDetailUser/'+encodeURIComponent(self.user))
-          //     .then (function (resp){
-          //       self.detail_user = angular.fromJson(resp['data']);
-          //       deferred.resolve(angular.fromJson(resp['data']));
-          //     })
-          // });
-          // console.log('resp: ');
-          // console.log(resp);
+
           resp = JSON.stringify(resp);
 
           $http.get('/api/getDetailUser/'+encodeURIComponent(resp))
@@ -87,8 +79,6 @@ angular_app.config(function($routeProvider, $locationProvider) {
 
             return deferred.promise;
         }
-
-
       }
 
       return new DataService();
@@ -97,13 +87,6 @@ angular_app.config(function($routeProvider, $locationProvider) {
     angular_app.controller('CtrlUsers',['$scope','$http','$routeParams', 'DataService', function($scope, $http, $routeParams, DataService){
       $scope.formData = {};
 
-      // $scope.login_n = $routeParams.login_n;
-      // $scope.getDetailUser = function (login_name){
-      //   console.log('login name getDetailUser: ');
-      //   console.log(login_name);
-      //
-      // }
-
       this.getUsers = function(){
         // this.tab = 2;
         $scope.users = {};
@@ -111,25 +94,11 @@ angular_app.config(function($routeProvider, $locationProvider) {
         DataService.getUser()
           .then(
             function (data){
-              // var data_det = angular.fromJson(data);
-              // var full_name = this.getDetailUser(data_det['']);
-              // resp = data;
-              // $scope.rowCollection = angular.fromJson(data);
-
               DataService.getDetailUser(data)
                 .then(
                   function (resp){
-                    // $scope.rowCollectionRepos = angular.fromJson(data);
-                    // console.log(angular.fromJson(data));
-                    // var data_det_usr = angular.fromJson(data);
                     $scope.showDetailUser = true;
-                    console.log('angular.fromJson(resp)************: ');
-                    console.log(angular.fromJson(resp));
                     $scope.rowCollection = angular.fromJson(resp);
-                    // return $scope.name_retrieve = data_det_usr['name'];
-                    // return angular.fromJson(data['name']);
-                    // $scope.showListUsers = false;
-                    // $scope.showListRepos = true;
                   },
                   function (result){
                     console.log('Failes, result is:'+ result);
@@ -143,7 +112,6 @@ angular_app.config(function($routeProvider, $locationProvider) {
           );
       }
       this.getUsers();
-      // this.getDetailUser();
     }])
     .directive('myDirective', function(){
         return {
@@ -154,50 +122,39 @@ angular_app.config(function($routeProvider, $locationProvider) {
         }
     });
 
-
     angular_app.controller('CtrlRepos',['$scope','$http','$routeParams','DataService', function($scope, $http, $routeParams, DataService){
       $scope.formData = {};
-      // $scope.login_n = $routeParams.login_n;
 
       this.showTable = function (){
+          DataService.getRepo($routeParams.login_n)
+            .then(
+              function (data){
+                $scope.rowCollectionRepos = angular.fromJson(data);
+                $scope.itemsByPage=10;
 
-        DataService.getRepo($routeParams.login_n)
-          .then(
-            function (data){
-              $scope.rowCollectionRepos = angular.fromJson(data);
-              $scope.itemsByPage=10;
-
-              $scope.showListUsers = false;
-              $scope.showListRepos = true;
-            },
-            function (result){
-              console.log('Failes, result is:'+ result);
-            }
-        );
+                $scope.showListUsers = false;
+                $scope.showListRepos = true;
+              },
+              function (result){
+                console.log('Failes, result is:'+ result);
+              }
+            );
       }
 
       this.showTable();
-      // this.getDetailUser();
+
     }]);
 
     angular_app.controller('CtrlDetailUser',['$scope','$http','DataService', function($scope, $http, $routeParams, DataService){
       $scope.formData = {};
-      // $scope.login_n = $routeParams.login_n;
 
       this.getDetailUser = function (login_name){
-        console.log('login name getDetailUser: ');
-        console.log(login_name);
         DataService.getDetailUser(login_name)
           .then(
             function (data){
-              // $scope.rowCollectionRepos = angular.fromJson(data);
-              // console.log(angular.fromJson(data));
               var data_det_usr = angular.fromJson(data);
               $scope.showDetailUser = true;
               $scope.name_retrieve = data_det_usr['name'];
-              // return angular.fromJson(data['name']);
-              // $scope.showListUsers = false;
-              // $scope.showListRepos = true;
             },
             function (result){
               console.log('Failes, result is:'+ result);
@@ -206,8 +163,5 @@ angular_app.config(function($routeProvider, $locationProvider) {
       }
 
       this.getDetailUser();
-      // this.getDetailUser();
     }]);
-
-
 })(window.angular);
