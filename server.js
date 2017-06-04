@@ -14,7 +14,6 @@ var request = require('request');
     // parse application/x-www-form-urlencoded
     app.use(bodyParser.urlencoded({ extended: true }));
 
-
     var config = require('./config.json');
     var token = ' token '+config.token;
     var options;
@@ -38,7 +37,6 @@ var request = require('request');
       };
       options = options_st;
     }
-
 
     app.get('/api/getUser', function (req,res){
       request(options, function (error, response, body){
@@ -72,41 +70,65 @@ var request = require('request');
       });
     });
 
-    app.get('/api/getDetailUser/:resp', function (req,res){
-      obj = JSON.parse(decodeURIComponent(req.params.resp));
-      obj_full = [];
-
-      for (var i=0; i <= obj.length-1; i++){
-        var url_final = 'https://api.github.com/users/'+obj[i].login;
-        if (is_tokenize == '1'){
-          var options_ct = {
-            url : url_final,
-            headers: {
-              'User-Agent': 'request'
-              ,'Authorization':  token
-            }
-          };
-          options = options_ct;
-        } else {
-          var options_st = {
-            url : url_final,
-            headers: {
-              'User-Agent': 'request'
-            }
-          };
-          options = options_st;
-        }
-
-        request(options, function (error, response, body){
-          var userDetailJson = JSON.parse(body);
-
-          obj_full.push(userDetailJson);
-
-          if ((obj_full.length)==i){
-            res.json(obj_full);
+    //getDetailUser GET
+    app.get('/api/getDetailUser', function (req,res){
+      var users;
+      var url_final = 'https://api.github.com/users';
+      if (is_tokenize == '1'){
+        var options_ct = {
+          url : url_final,
+          headers: {
+            'User-Agent': 'request'
+            ,'Authorization':  token
           }
-        });
+        };
+        options = options_ct;
+      } else {
+        var options_st = {
+          url : url_final,
+          headers: {
+            'User-Agent': 'request'
+          }
+        };
+        options = options_st;
       }
+
+      //request to USERS
+      request(options, function (error, response, body){
+        users = JSON.parse(body);
+
+        obj_full = [];
+
+        for (var i=0; i <= users.length-1; i++){
+          var url_final = 'https://api.github.com/users/'+users[i].login;
+          if (is_tokenize == '1'){
+            var options_ct = {
+              url : url_final,
+              headers: {
+                'User-Agent': 'request'
+                ,'Authorization':  token
+              }
+            };
+            options = options_ct;
+          } else {
+            var options_st = {
+              url : url_final,
+              headers: {
+                'User-Agent': 'request'
+              }
+            };
+            options = options_st;
+          }
+          //request to getDetailUser
+          request(options, function (error, response, body){
+            var userDetailJson = JSON.parse(body);
+            obj_full.push(userDetailJson);
+            if ((obj_full.length)==i){
+              res.json(obj_full);
+            }
+          });
+        }
+       });
     });
 
     app.use(express.static(__dirname + '/app'));
@@ -119,6 +141,7 @@ var request = require('request');
       res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
       next();
     });
+
     app.get('*', function(req, res) {
       res.sendFile(__dirname + '/app/index.html');
     });
